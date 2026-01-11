@@ -1,0 +1,7 @@
+services:
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    container_name: jobwatch_dynamodb
+    command: "-jar DynamoDBLocal.jar -sharedDb -inMemory"
+    ports:
+      - "18000:8000"

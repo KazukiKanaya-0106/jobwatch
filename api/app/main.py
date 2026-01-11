@@ -1,14 +1,6 @@
 from fastapi import FastAPI
+from app.api.v1.router import v1_router
 
+app = FastAPI()
 
-def create_app() -> FastAPI:
-    app = FastAPI()
-
-    @app.get("/health")
-    def health():
-        return {"ok": True}
-
-    return app
-
-
-app = create_app()
+app.include_router(v1_router)
