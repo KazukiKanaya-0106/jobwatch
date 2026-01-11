@@ -1,6 +1,6 @@
 module github.com/kanaya/jobwatch/cli
 
-go 1.25.2
+go 1.25.5
 
 require (
 	github.com/spf13/cobra v1.10.2
