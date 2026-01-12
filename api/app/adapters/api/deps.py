@@ -19,9 +19,6 @@ def _build_dynamodb_resource() -> object:
     return boto3.resource("dynamodb", **settings.dynamodb_kwargs())
 
 
-print(get_settings())
-
-
 @lru_cache
 def get_job_repository() -> JobRepository:
     table_name = get_settings().ddb_jobs_table_name
