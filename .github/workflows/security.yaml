@@ -67,10 +67,8 @@ jobs:
         uses: gitleaks/gitleaks-action@v1.6.0
 
   osv:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: OSV Scanner
-        uses: google/osv-scanner-action@v1
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@v2.3.1
