@@ -1,24 +1,44 @@
 version: "3"
 
 tasks:
+  ddb:up:
+    cmds:
+      - docker compose up -d
+
+  ddb:down:
+    cmds:
+      - docker compose down -v
+
+  ddb:create-tables:
+    cmds:
+      - bash ./infra/scripts/dynamodb/wait.sh
+      - bash ./infra/scripts/dynamodb/create-tables.sh
+
+  ddb:init:
+    deps:
+      - ddb:up
+    cmds:
+      - task: ddb:create-tables
+
   api:fmt:
-    desc: Format Python code (Ruff)
     dir: api
     cmds:
       - uv run ruff format .
 
   api:lint:
-    desc: Lint Python code (Ruff)
     dir: api
     cmds:
       - uv run ruff check . --fix
 
   api:check:
-    desc: Run format + lint (and later tests)
     deps: [api:fmt, api:lint]
 
   api:test:
-    desc: Run tests
     dir: api
     cmds:
       - uv run pytest
+
+  api:dev:
+    dir: api
+    cmds:
+      - uv run uvicorn app.main:app --reload --reload-dir app
