@@ -17,9 +17,8 @@
     "enabled": true,
     "rules": {
       "recommended": true,
-      "suspicious": "error",
-      "nursery": {
-        "useSortedClasses": "warn"
+      "suspicious": {
+        "noReactSpecificProps": "off"
       },
       "correctness": {
         "noUnusedImports": "warn",
