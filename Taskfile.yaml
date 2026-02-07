@@ -99,7 +99,22 @@ tasks:
     cmds:
       - git diff --exit-code
 
+  infra:init:
+    dir: infra/terraform
+    cmds:
+      - terraform init
+
   infra:fmt:
     dir: infra/terraform
     cmds:
       - terraform fmt -recursive
+
+  infra:validate:
+    dir: infra/terraform
+    cmds:
+      - terraform validate
+
+  infra:ci:
+    deps: [infra:init, infra:fmt, infra:validate]
+    cmds:
+      - git diff --exit-code

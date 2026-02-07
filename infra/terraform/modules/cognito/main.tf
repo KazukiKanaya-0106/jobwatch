@@ -1,3 +1,9 @@
+resource "random_string" "domain_suffix" {
+  length  = 6
+  special = false
+  upper   = false
+}
+
 resource "aws_cognito_user_pool" "this" {
   name = "jobwatch-user-pool"
 
@@ -70,7 +76,7 @@ resource "aws_cognito_user_pool_client" "this" {
 }
 
 resource "aws_cognito_user_pool_domain" "this" {
-  domain       = var.domain_prefix
+  domain       = "${var.domain_prefix}-${random_string.domain_suffix.result}"
   user_pool_id = aws_cognito_user_pool.this.id
 }
 
