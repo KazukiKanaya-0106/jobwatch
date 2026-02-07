@@ -12,3 +12,7 @@ pre-commit:
     - name: web ci
       glob: "web/**/*.{ts,tsx,js,jsx}"
       run: task web:ci
+
+    - name: infra ci
+      glob: "infra/terraform/**/*.tf"
+      run: task infra:ci
