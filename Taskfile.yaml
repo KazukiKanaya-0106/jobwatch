@@ -123,6 +123,24 @@ tasks:
     cmds:
       - task: infra:fmt
       - task: infra:validate
+  
+  infra:plan:
+      dir: infra/terraform
+      deps: [infra:fix]
+      cmds:
+        - terraform plan
+
+  infra:apply:
+    dir: infra/terraform
+    deps: [infra:fix]
+    cmds:
+      - terraform apply -auto-approve
+  
+  infra:destroy:
+    dir: infra/terraform
+    deps: [infra:fix]
+    cmds:
+      - terraform destroy -auto-approve
 
   infra:ci:
     dir: infra/terraform

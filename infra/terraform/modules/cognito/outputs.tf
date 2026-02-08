@@ -9,11 +9,6 @@ output "user_pool_client_id" {
 }
 
 output "user_pool_domain" {
-  description = "Cognito User Pool Domain (full URL)"
+  description = "Cognito User Pool Domain"
   value       = "${aws_cognito_user_pool_domain.this.domain}.auth.${data.aws_region.current.id}.amazoncognito.com"
-}
-
-output "domain_prefix" {
-  description = "Cognito Domain Prefix"
-  value       = aws_cognito_user_pool_domain.this.domain
 }
