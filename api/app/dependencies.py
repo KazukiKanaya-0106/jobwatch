@@ -13,7 +13,7 @@ from app.database.workspace_repository import WorkspaceRepository
 from app.models.exceptions import AuthenticationError
 from app.models.host import Host
 
-security = HTTPBearer()
+security = HTTPBearer(auto_error=False)
 
 
 @lru_cache
@@ -22,7 +22,8 @@ def get_settings() -> Settings:
 
 
 @lru_cache
-def get_jwks_client(settings: Settings = Depends(get_settings)) -> jwt.PyJWKClient:
+def get_jwks_client() -> jwt.PyJWKClient:
+    settings = get_settings()
     return jwt.PyJWKClient(settings.oidc_jwks_url)
 
 
@@ -51,10 +52,12 @@ def get_job_repository() -> JobRepository:
 
 
 def get_current_host(
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
     repository: HostRepository = Depends(get_host_repository),
 ) -> Host:
     """Verify host token and return authenticated host."""
+    if not credentials:
+        raise AuthenticationError("Missing host authentication token")
     token = credentials.credentials
     token_hash = Host.hash_token(token)
     host = repository.find_by_token_hash(token_hash)
@@ -66,11 +69,13 @@ def get_current_host(
 
 
 def get_current_user(
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
     settings: Settings = Depends(get_settings),
     jwks_client: jwt.PyJWKClient = Depends(get_jwks_client),
 ) -> str:
     """Verify OIDC JWT token and return user sub claim."""
+    if not credentials:
+        raise AuthenticationError("Missing user authentication token")
     token = credentials.credentials
 
     try:
