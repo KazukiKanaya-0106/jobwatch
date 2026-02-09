@@ -107,36 +107,35 @@ If you have ideas or pain points from ML experimentation workflows, please open 
 
 ### Prerequisites
 
-- Python (uv)
-- Node.js (pnpm)
-- Go (goenv)
+- Python 3.11 (via [uv](https://docs.astral.sh/uv/))
+- Node.js 22+ (via [pnpm](https://pnpm.io/))
+- Go 1.25.7 (via [goenv](https://github.com/go-nv/goenv))
+- Terraform (via [tfenv](https://github.com/tfutils/tfenv))
+- Docker & Docker Compose 
 
-### Dependencies
+### Install Dependencies
 
-#### Task
+- **Task** (task runner): [taskfile.dev/installation](https://taskfile.dev/installation)
+- **Lefthook** (git hooks): [lefthook.dev/installation](https://lefthook.dev/installation)
+- **AWS CLI** (for LocalStack): [AWS CLI installation](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
-**macOS**
-
-```bash
-brew install go-task/tap/go-task
-```
-
-**Ubuntu / Debian**
-
-```bash
-curl -1sLf 'https://dl.cloudsmith.io/public/task/task/setup.deb.sh' | sudo -E bash
-sudo apt install task
-```
-
-#### Lefthook
-
-```bash
-go install github.com/evilmartians/lefthook@latest
-```
+After installing Lefthook, run:
 
 ```bash
 lefthook install
 ```
+
+### Start Local Services
+
+```bash
+# Start LocalStack (AWS emulator)
+task ddb:init
+
+# Start API server
+task api:dev
+```
+
+Note: LocalStack emulates AWS services locally. See [docs.localstack.cloud](https://docs.localstack.cloud/) for details.
 
 ---
 

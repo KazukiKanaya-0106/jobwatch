@@ -1,7 +1,14 @@
 services:
-  dynamodb:
-    image: amazon/dynamodb-local:latest
-    container_name: jobwatch_dynamodb
-    command: "-jar DynamoDBLocal.jar -sharedDb -inMemory"
+  localstack:
+    image: localstack/localstack:latest
+    container_name: jobwatch_localstack
     ports:
-      - "18000:8000"
+      - "4566:4566"
+    environment:
+      - SERVICES=dynamodb
+      - DEBUG=1
+    volumes:
+      - localstack_data:/var/lib/localstack
+
+volumes:
+  localstack_data:
