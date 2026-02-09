@@ -3,7 +3,7 @@ set -euo pipefail
 
 JOBS_TABLE_NAME=${JOBS_TABLE_NAME:-jobwatch-jobs}
 TABLE_NAME=${JOBWATCH_DDB_TABLE_NAME:-jobwatch-dev}
-ENDPOINT=${DDB_ENDPOINT:-http://localhost:18000}
+ENDPOINT=${DDB_ENDPOINT:-http://localhost:4566}
 REGION=${AWS_REGION:-ap-northeast-1}
 
 aws dynamodb create-table \
